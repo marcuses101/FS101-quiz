@@ -1,0 +1,18 @@
+What is the take-off edge of an Axel jump element?
+    -Forward Outside
+    -Forward Inside
+    -Backward Outside
+    -Backward Inside
+
+What is this spin's basic position?
+    -Upright
+    -Sit
+    -Camel
+    -Non Basic
+
+What is the exit edge of a Left Forward Outside Rocker Turn?
+    -Left Forward Outside
+    -Left Back Inside
+    -Left Back Outside
+    -Right Back Outside
+

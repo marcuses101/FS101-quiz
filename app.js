@@ -30,6 +30,8 @@ const store = {
   score: 0
 };
 
+store.totalQuestions = store.questions.length;
+
 /**
  * 
  * Technical requirements:
@@ -46,13 +48,44 @@ const store = {
  */
 
 /********** TEMPLATE GENERATION FUNCTIONS **********/
+function introScreen (store) {
+  // return html string of intro
+}
 
+function questionScreen (store) {
+  // return html string of qestion interface
+}
+
+function answerScreen () {
+  // return html string of answer screen
+}
+
+function resultScreen () {
+  // return html string of answer screen
+}
 // These functions return HTML templates
 
 /********** RENDER FUNCTION(S) **********/
 
-// This function conditionally replaces the contents of the <main> tag based on the state of the store
+function render() {
+
+  // This function conditionally replaces the contents of the <main> tag based on the state of the store
+
+}
 
 /********** EVENT HANDLER FUNCTIONS **********/
 
+function handleSubmit () {
+  
+}
+
+function handleStart () {
+
+}
+
+function initializeListeners () {
+  //start event listeners
+
+
+}
 // These functions handle events (submit, click, etc)
