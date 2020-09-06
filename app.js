@@ -78,7 +78,7 @@ class QuizModel {
     this.quizComplete = false;
   }
   nextQuestion() {
-    if (this.currentQuestion.index < this.quizLength -1) {
+    if (this.currentQuestion.index < this.quizLength - 1) {
       this.currentQuestion = this.questions[this.currentQuestion.index + 1];
       console.log(this.currentQuestion)
     } else {
@@ -113,13 +113,6 @@ class QuizModel {
 }
 
 
-function resultScreen(storeObj) {
-  return 
-  // return html string of answer screen
-}
-// These functions return HTML templates
-
-/********** RENDER FUNCTION(S) **********/
 class QuizView {
   constructor(rootElement) {
     this.target = rootElement;
@@ -137,34 +130,37 @@ class QuizView {
                           <p>Current Score: ${results.questionsCorrect}/${results.questionsAnswered}</p>
                           <h2>${question.question}</h2>
                           <form action="">
-                          
                           <input type="radio" name="multi-answer" id="1" value="${question.answers[0]}">
-                          <label for="1">${question.answers[0]}</label>
+                          <label for="1">${question.answers[0]}</label><br>
                           <input type="radio" name="multi-answer" id="2" value="${question.answers[1]}">
-                          <label for="2">${question.answers[1]}</label>
+                          <label for="2">${question.answers[1]}</label><br>
                           <input type="radio" name="multi-answer" id="3" value="${question.answers[2]}">
-                          <label for="3">${question.answers[2]}</label>
+                          <label for="3">${question.answers[2]}</label><br>
                           <input type="radio" name="multi-answer" id="4" value="${question.answers[3]}">
-                          <label for="4">${question.answers[3]}</label>
+                          <label for="4">${question.answers[3]}</label><br>
                               <input type="submit">
                           </form>
                         </section>`
 
-  if (question.imgURL) {
-    let tree = $(`<div>${htmlString}</div>`)
-    tree.find("h2").after(`<img src="${question.imgURL}">`)
-    htmlString = tree.html();
-  }
-  this.currentView = htmlString;
+    if (question.imgURL) {
+      let tree = $(`<div>${htmlString}</div>`)
+      tree.find("h2").after(`<img src="${question.imgURL}">`)
+      htmlString = tree.html();
+    }
+    this.currentView = htmlString;
   }
   answer(question, results) {
     this.currentView = `<section id="answer">
-                          <h2>Answer</h2>
                           <h3>You answered:</h3>
                           <h4>${question.userAnswer}</h4>
                           <h3>The correct answer was:</h3>
                           <h4>${question.correctAnswer}</h4>
-                          <h3>Your current score is ${results.questionsCorrect}/${results.questionsAnswered}. Good Job!</h3>
+                          <h3>
+                          ${question.answerIsCorrect ? "Correct! Good job!" : "Incorrect. Don't give up!"}
+                          </h3>
+                          <h3>
+                          Your current score is ${results.questionsCorrect}/${results.questionsAnswered}.
+                          </h3>
                           <button class="next">Next</button>
                         </section>`;
   }
@@ -172,7 +168,9 @@ class QuizView {
     this.currentView = `<section id="results">
                           <h2>Results:</h2>
                           <h3>Your final score is:</h3>
-                          <h4>${results.questionsCorrect}/${results.questionsAnswered} better luck next time!</h4>
+                          <h4>${results.questionsCorrect}/${results.questionsAnswered} 
+                          ${results.questionCorrect == results.questionsAnswered?"AMAZING!":"Try to improve your score!"}
+                          </h4>
                           <button class="start">Play again?</button>
                         </section> `;
   }
@@ -202,17 +200,20 @@ class QuizController {
   handleSubmit(event) {
     event.preventDefault();
     const answer = $(event.target).find("input:checked").val();
-    this.model.answerQuestion(answer);
-    this.view.answer(this.model.currentQuestion, this.model.returnResults())
-    this.view.render();
+    if (answer) {
+      this.model.answerQuestion(answer);
+      this.view.answer(this.model.currentQuestion, this.model.returnResults())
+      this.view.render();
+
+    }
   }
 
   handleNext() {
     console.log("next")
     this.model.nextQuestion();
-    this.model.quizComplete 
-    ? this.view.results(this.model.returnResults())
-    : this.view.question(this.model.currentQuestion,this.model.returnResults());
+    this.model.quizComplete
+      ? this.view.results(this.model.returnResults())
+      : this.view.question(this.model.currentQuestion, this.model.returnResults());
     this.view.render();
   }
   setEventListeners() {
