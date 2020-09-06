@@ -6,3 +6,27 @@
   * https://github.com/andreacardybailey/responsive_example/blob/master/styles/responsive-base.css 
   *
 */
+
+* {
+  font-family: "Press Start 2P", cursive;
+}
+
+section {
+  border: 2px solid black;
+  margin: 10px;
+}
+
+h1, h2, h3, h4 {
+  text-align: center;
+}
+
+button {
+  display: block;
+  margin: 10px auto;
+}
+
+form {
+  padding: 10px;
+  width: 90%;
+  margin: auto;
+}
