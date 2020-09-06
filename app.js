@@ -137,6 +137,7 @@ class QuizView {
                           <p>Current Score: ${results.questionsCorrect}/${results.questionsAnswered}</p>
                           <h2>${question.question}</h2>
                           <form action="">
+                          
                           <input type="radio" name="multi-answer" id="1" value="${question.answers[0]}">
                           <label for="1">${question.answers[0]}</label>
                           <input type="radio" name="multi-answer" id="2" value="${question.answers[1]}">
