@@ -92,7 +92,6 @@ class QuizModel {
   nextQuestion() {
     if (this.currentQuestion.index < this.quizLength - 1) {
       this.currentQuestion = this.questions[this.currentQuestion.index + 1];
-      console.log(this.currentQuestion)
     } else {
       this.quizComplete = true;
       this.returnResults();
@@ -107,13 +106,12 @@ class QuizModel {
     // shuffle questions
     this.questions = shuffle(this.questions)
     // shuffle answers of each question, reassign in indices
-    this.questions.forEach((question, index)=>{
+    this.questions.forEach((question, index) => {
       question.answers = shuffle(question.answers)
       question.index = index;
     })
   }
   returnResults() {
-    console.log("results:")
     const results = this.questions.reduce((resultObj, currentQuestion) => {
       resultObj.questionsCorrect += currentQuestion.answerIsCorrect ? 1 : 0
       resultObj.questionsAnswered += (currentQuestion.answerIsCorrect !== null) ? 1 : 0;
@@ -151,16 +149,24 @@ class QuizView {
                           <p>Question ${results.questionsAnswered + 1} of ${results.totalQuestions}</p>
                           <p>Score: ${results.questionsCorrect}/${results.questionsAnswered}</p>
                           <h2>${question.question}</h2>
-                          <form action="">
-                            <div>
-                              <input type="radio" name="multi-answer" id="1" value="${question.answers[0]}" required>
-                              <label for="1">${question.answers[0]}</label><br>
-                              <input type="radio" name="multi-answer" id="2" value="${question.answers[1]}" required>
-                              <label for="2">${question.answers[1]}</label><br>
-                              <input type="radio" name="multi-answer" id="3" value="${question.answers[2]}" required>
-                              <label for="3">${question.answers[2]}</label><br>
-                              <input type="radio" name="multi-answer" id="4" value="${question.answers[3]}" required>
-                              <label for="4">${question.answers[3]}</label><br>
+                          <form>
+                            <div class="container">
+                              <label for="1">
+                                <input type="radio" name="multi-answer" id="1" value="${question.answers[0]}" required>
+                                ${question.answers[0]}
+                              </label><br>
+                              <label for="2">
+                                <input type="radio" name="multi-answer" id="2" value="${question.answers[1]}" required>
+                                ${question.answers[1]}
+                              </label><br>
+                              <label for="3">
+                                <input type="radio" name="multi-answer" id="3" value="${question.answers[2]}" required>
+                                ${question.answers[2]}
+                              </label><br>
+                              <label for="4">
+                                <input type="radio" name="multi-answer" id="4" value="${question.answers[3]}" required>
+                                ${question.answers[3]}
+                              </label><br>
                               <input type="submit">
                             </div>
                           </form>
@@ -192,7 +198,7 @@ class QuizView {
   results(results) {
     playSound(results.questionsCorrect == results.questionsAnswered ? "#victorySound" : "#trySound")
     this.currentView = `<section id="results">
-                          <h2>Results:</h2>
+                          <h2>FINAL RESULTS:</h2>
                           <h3>Your final score is:</h3>
                           <h4>${results.questionsCorrect}/${results.questionsAnswered} 
                           ${results.questionsCorrect == results.questionsAnswered
@@ -224,7 +230,6 @@ class QuizController {
     this.model.resetQuiz();
     this.view.question(this.model.currentQuestion, this.model.returnResults());
     this.view.render();
-    console.log("start")
   }
 
   handleSubmit(event) {
@@ -238,7 +243,6 @@ class QuizController {
   }
 
   handleNext() {
-    console.log("next")
     this.model.nextQuestion();
     this.model.quizComplete
       ? this.view.results(this.model.returnResults())
@@ -260,7 +264,6 @@ class QuizController {
 $(root).on("change", "input", function () { playSound("#selectSound") })
 
 function playSound(soundId) {
-  console.log("play sound")
   const sound = document.querySelector(soundId);
   sound.currentTime = 0;
   sound.play();

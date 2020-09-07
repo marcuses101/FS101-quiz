@@ -24,9 +24,29 @@ h1, h2, h3, h4 {
 button {
   display: block;
   margin: 10px auto;
+  padding: 10px;
+  border: 8px double black;
+  border-radius: 0;
+  
 }
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
 input {
-  margin: 10px 0px 10px 10px;
+  margin: 10px;
+}
+label{
+  display: flex;
+  border: 3px solid black;
+  padding: 10px;
+  width: 90%;
+  align-items: center;
+}
+label:hover,input:hover, button:hover {
+  cursor:pointer;
 }
 
 form {
@@ -45,7 +65,11 @@ img {
 input[type=submit] {
   display: block;
   margin: 10px auto;
+  padding: 10px;
+  border: 8px double black;
+  border-radius: 0;
 }
+
 
 p {
   margin: 10px;
@@ -60,6 +84,7 @@ p {
 .orange {
   color: darkorange;
 }
+
 div {
   margin: auto;
 }
