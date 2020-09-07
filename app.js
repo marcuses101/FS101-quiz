@@ -8,7 +8,7 @@ const store = {
   // 5 or more questions are required
   questions: [
     {
-      question: 'What is the take-ff edge of an Axel jump element?',
+      question: 'What is the take-off edge of the Axel jump element?',
       answers: [
         'Forward Outside',
         'Forward Inside',
@@ -18,7 +18,7 @@ const store = {
       correctAnswer: 'Forward Outside'
     },
     {
-      question: `What is the exit edge of a Left Forward Outside Rocker turn`,
+      question: `What is the exit edge of a Left Forward Outside Rocker turn?`,
       answers: [
         'Left Backward Outside',
         'Left Backward Inside',
@@ -130,15 +130,17 @@ class QuizView {
                           <p>Current Score: ${results.questionsCorrect}/${results.questionsAnswered}</p>
                           <h2>${question.question}</h2>
                           <form action="">
-                          <input type="radio" name="multi-answer" id="1" value="${question.answers[0]}">
-                          <label for="1">${question.answers[0]}</label><br>
-                          <input type="radio" name="multi-answer" id="2" value="${question.answers[1]}">
-                          <label for="2">${question.answers[1]}</label><br>
-                          <input type="radio" name="multi-answer" id="3" value="${question.answers[2]}">
-                          <label for="3">${question.answers[2]}</label><br>
-                          <input type="radio" name="multi-answer" id="4" value="${question.answers[3]}">
-                          <label for="4">${question.answers[3]}</label><br>
+                            <div>
+                              <input type="radio" name="multi-answer" id="1" value="${question.answers[0]}" required>
+                              <label for="1">${question.answers[0]}</label><br>
+                              <input type="radio" name="multi-answer" id="2" value="${question.answers[1]}" required>
+                              <label for="2">${question.answers[1]}</label><br>
+                              <input type="radio" name="multi-answer" id="3" value="${question.answers[2]}" required>
+                              <label for="3">${question.answers[2]}</label><br>
+                              <input type="radio" name="multi-answer" id="4" value="${question.answers[3]}" required>
+                              <label for="4">${question.answers[3]}</label><br>
                               <input type="submit">
+                            </div>
                           </form>
                         </section>`
 
@@ -152,9 +154,9 @@ class QuizView {
   answer(question, results) {
     this.currentView = `<section id="answer">
                           <h3>You answered:</h3>
-                          <h4>${question.userAnswer}</h4>
+                          <h4 class="${question.answerIsCorrect?"green":"red"}">${question.userAnswer}</h4>
                           <h3>The correct answer was:</h3>
-                          <h4>${question.correctAnswer}</h4>
+                          <h4 class="green">${question.correctAnswer}</h4>
                           <h3>
                           ${question.answerIsCorrect ? "Correct! Good job!" : "Incorrect. Don't give up!"}
                           </h3>
@@ -169,7 +171,9 @@ class QuizView {
                           <h2>Results:</h2>
                           <h3>Your final score is:</h3>
                           <h4>${results.questionsCorrect}/${results.questionsAnswered} 
-                          ${results.questionCorrect == results.questionsAnswered?"AMAZING!":"Try to improve your score!"}
+                          ${results.questionsCorrect == results.questionsAnswered
+                            ?'<span class="green">AMAZING!</span>'
+                            :'<span class="orange">Try to improve next time!</span>'}
                           </h4>
                           <button class="start">Play again?</button>
                         </section> `;
@@ -204,7 +208,6 @@ class QuizController {
       this.model.answerQuestion(answer);
       this.view.answer(this.model.currentQuestion, this.model.returnResults())
       this.view.render();
-
     }
   }
 

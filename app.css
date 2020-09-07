@@ -17,6 +17,7 @@ section {
 }
 
 h1, h2, h3, h4 {
+  margin: 10px;
   text-align: center;
 }
 
@@ -32,8 +33,40 @@ form {
   padding: 10px;
   width: 90%;
   margin: auto;
+  display: flex;
 }
 img {
   display: block;
   margin: 10px auto;
+  max-width: 90%;
+  max-height: 50%;
+}
+
+input[type=submit] {
+  display: block;
+  margin: 10px auto;
+}
+
+p {
+  margin: 10px;
+  padding: 10px;
+}
+
+.green {
+  color: green;
+}
+.red {
+  color: red;
+}
+.orange {
+  color: darkorange;
+}
+div {
+  margin: auto;
+}
+@media all and (min-width: 750px) {
+  section {
+    margin: auto;
+    width: 700px;
+  }
 }
