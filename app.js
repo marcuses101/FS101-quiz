@@ -244,8 +244,11 @@ function playSound (soundId) {
   sound.play();
 }
 
-
-
+// hack to start audio
+document.addEventListener("mousemove",function(){
+  playSound("#startSound");
+  this.removeEventListener("mousemove", arguments.callee)
+})
 
 const testQuizModel = new QuizModel(store);
 const testQuizView = new QuizView(root);
