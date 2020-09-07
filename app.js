@@ -64,6 +64,18 @@ const store = {
   ],
 };
 
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+  while (0 !== currentIndex) {
+    randomIndex = Math.floor(Math.random() * currentIndex)
+    currentIndex -= 1;
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+  return array;
+}
+
 class QuizModel {
   constructor(quizStore) {
     this.name = quizStore.name;
@@ -90,6 +102,15 @@ class QuizModel {
     this.currentQuestion.userAnswer = answerString;
     this.currentQuestion.answerIsCorrect = (this.currentQuestion.correctAnswer == answerString) ? true : false;
     return this.currentQuestion.answerIsCorrect;
+  }
+  randomize() {
+    // shuffle questions
+    this.questions = shuffle(this.questions)
+    // shuffle answers of each question, reassign in indices
+    this.questions.forEach((question, index)=>{
+      question.answers = shuffle(question.answers)
+      question.index = index;
+    })
   }
   returnResults() {
     console.log("results:")
@@ -153,10 +174,10 @@ class QuizView {
     this.currentView = htmlString;
   }
   answer(question, results) {
-    playSound(question.answerIsCorrect?"#correctSound":"#wrongSound");
+    playSound(question.answerIsCorrect ? "#correctSound" : "#wrongSound");
     this.currentView = `<section id="answer">
                           <h3>You answered:</h3>
-                          <h4 class="${question.answerIsCorrect?"green":"red"}">${question.userAnswer}</h4>
+                          <h4 class="${question.answerIsCorrect ? "green" : "red"}">${question.userAnswer}</h4>
                           <h3>The correct answer was:</h3>
                           <h4 class="green">${question.correctAnswer}</h4>
                           <h3>
@@ -169,14 +190,14 @@ class QuizView {
                         </section>`;
   }
   results(results) {
-    playSound(results.questionsCorrect == results.questionsAnswered?"#victorySound":"#trySound")
+    playSound(results.questionsCorrect == results.questionsAnswered ? "#victorySound" : "#trySound")
     this.currentView = `<section id="results">
                           <h2>Results:</h2>
                           <h3>Your final score is:</h3>
                           <h4>${results.questionsCorrect}/${results.questionsAnswered} 
                           ${results.questionsCorrect == results.questionsAnswered
-                            ?'<span class="green amazing">AMAZING!</span>'
-                            :'<span class="orange">Try to improve next time!</span>'}
+        ? '<span class="green amazing">AMAZING!</span>'
+        : '<span class="orange">Try to improve next time!</span>'}
                           </h4>
                           <button class="start">Play again?</button>
                         </section> `;
@@ -199,7 +220,8 @@ class QuizController {
   }
   handleStart() {
     playSound("#startSound")
-    this.model.resetQuiz()
+    this.model.randomize();
+    this.model.resetQuiz();
     this.view.question(this.model.currentQuestion, this.model.returnResults());
     this.view.render();
     console.log("start")
@@ -235,20 +257,15 @@ class QuizController {
   }
 }
 
-$(root).on("change","input",function (){playSound("#selectSound")})
+$(root).on("change", "input", function () { playSound("#selectSound") })
 
-function playSound (soundId) {
+function playSound(soundId) {
   console.log("play sound")
   const sound = document.querySelector(soundId);
   sound.currentTime = 0;
   sound.play();
 }
 
-// hack to start audio
-document.addEventListener("mousemove",function(){
-  playSound("#startSound");
-  this.removeEventListener("mousemove", arguments.callee)
-})
 
 const testQuizModel = new QuizModel(store);
 const testQuizView = new QuizView(root);
