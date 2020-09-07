@@ -125,6 +125,7 @@ class QuizView {
     </section>`
   }
   question(question, results) {
+    playSound("#questionSound")
     let htmlString = `<section id="question">
                           <p>Question ${results.questionsAnswered + 1} of ${results.totalQuestions}</p>
                           <p>Score: ${results.questionsCorrect}/${results.questionsAnswered}</p>
@@ -152,6 +153,7 @@ class QuizView {
     this.currentView = htmlString;
   }
   answer(question, results) {
+    playSound(question.answerIsCorrect?"#correctSound":"#wrongSound");
     this.currentView = `<section id="answer">
                           <h3>You answered:</h3>
                           <h4 class="${question.answerIsCorrect?"green":"red"}">${question.userAnswer}</h4>
@@ -167,12 +169,13 @@ class QuizView {
                         </section>`;
   }
   results(results) {
+    playSound(results.questionsCorrect == results.questionsAnswered?"#victorySound":"#trySound")
     this.currentView = `<section id="results">
                           <h2>Results:</h2>
                           <h3>Your final score is:</h3>
                           <h4>${results.questionsCorrect}/${results.questionsAnswered} 
                           ${results.questionsCorrect == results.questionsAnswered
-                            ?'<span class="green">AMAZING!</span>'
+                            ?'<span class="green amazing">AMAZING!</span>'
                             :'<span class="orange">Try to improve next time!</span>'}
                           </h4>
                           <button class="start">Play again?</button>
@@ -195,6 +198,7 @@ class QuizController {
     this.view = quizView;
   }
   handleStart() {
+    playSound("#startSound")
     this.model.resetQuiz()
     this.view.question(this.model.currentQuestion, this.model.returnResults());
     this.view.render();
@@ -230,6 +234,18 @@ class QuizController {
     this.view.render();
   }
 }
+
+$(root).on("change","input",function (){playSound("#selectSound")})
+
+function playSound (soundId) {
+  console.log("play sound")
+  const sound = document.querySelector(soundId);
+  sound.currentTime = 0;
+  sound.play();
+}
+
+
+
 
 const testQuizModel = new QuizModel(store);
 const testQuizView = new QuizView(root);
