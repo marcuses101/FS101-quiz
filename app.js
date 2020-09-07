@@ -127,7 +127,7 @@ class QuizView {
   question(question, results) {
     let htmlString = `<section id="question">
                           <p>Question ${results.questionsAnswered + 1} of ${results.totalQuestions}</p>
-                          <p>Current Score: ${results.questionsCorrect}/${results.questionsAnswered}</p>
+                          <p>Score: ${results.questionsCorrect}/${results.questionsAnswered}</p>
                           <h2>${question.question}</h2>
                           <form action="">
                             <div>
