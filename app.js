@@ -23,7 +23,7 @@ const store = {
         'Left Backward Outside',
         'Left Backward Inside',
         'Right Backward Outside',
-        'Right Backward Outside'
+        'Right Backward Inside'
       ],
       correctAnswer: 'Left Backward Outside'
     },
